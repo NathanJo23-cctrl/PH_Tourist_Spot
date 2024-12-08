@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        header {
+            background-color: #007bb5;
+            color: #fff;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #007bb5;
+            border-bottom: 2px solid #007bb5;
+            padding-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+            padding: 10px;
+            background: #e9f5ff;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007bb5;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: block;
+            margin: 20px auto;
+        }
+
+        button:hover {
+            background-color: #005f8a;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            header p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Booking Confirmed</h1>
+</header>
+
+<div class="container">
+    <section class="details">
+        <h2>Thank you for booking with Bohol Adventures!</h2>
+        <p>Your booking is confirmed. Here are your details:</p>
+        <ul>
+            <li><strong>Full Name:</strong> <span id="confirmName"></span></li>
+            <li><strong>Email:</strong> <span id="confirmEmail"></span></li>
+            <li><strong>Package Selected:</strong> <span id="confirmPackage"></span></li>
+            <li><strong>Start Date:</strong> <span id="confirmDate"></span></li>
+            <li><strong>Number of People:</strong> <span id="confirmPeople"></span></li>
+            <li><strong>Total Cost:</strong> PHP <span id="confirmTotalCost"></span></li>
+        </ul>
+    </section>
+
+    <button onclick="window.location.href='index.html'">Back to Home</button>
+</div>
+
+<footer>
+    <p>&copy; 2024 Bohol Adventures. All rights reserved.</p>
+</footer>
+
+<script>
+    // Retrieve booking data from Local Storage
+    const bookingDetails = JSON.parse(localStorage.getItem('bookingDetails'));
+
+    if (bookingDetails) {
+        document.getElementById('confirmName').textContent = bookingDetails.name;
+        document.getElementById('confirmEmail').textContent = bookingDetails.email;
+        document.getElementById('confirmPackage').textContent = bookingDetails.package;
+        document.getElementById('confirmDate').textContent = bookingDetails.date;
+        document.getElementById('confirmPeople').textContent = bookingDetails.people;
+        
+        // Extract price, removing commas and converting to integer
+        const packagePriceString = bookingDetails.package.match(/\d{1,3}(?:,\d{3})*(?:\.\d{2})?/g)[0];
+        const packagePrice = parseInt(packagePriceString.replace(/,/g, ''), 10);
+
+        // Convert the number of people to an integer
+        const numberOfPeople = parseInt(bookingDetails.people, 10);
+        
+        // Calculate total cost
+        const totalCost = packagePrice * numberOfPeople;
+        document.getElementById('confirmTotalCost').textContent = totalCost.toLocaleString();
+    }
+</script>
+
+
+</body>
+</html>
